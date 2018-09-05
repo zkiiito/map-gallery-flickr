@@ -9,7 +9,7 @@ var config = {
         access_token_secret: process.env.FLICKR_ACCESS_TOKEN_SECRET
     },
     googleOptions: {
-        maps_api_key: process.env.GOOGLE_MAPS_API_KEY || ''
+        maps_api_key: process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyCybAvGJ5QJC1vy5e6vCYPiB7EwmBut0R4'
     },
     authenticate: process.env.FLICKR_USER_ID !== undefined,
     port: process.env.PORT || 8000
