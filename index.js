@@ -17,9 +17,8 @@ Flickr[config.authenticate ? 'authenticate' : 'tokenOnly'](config.flickrOptions,
     var app = express();
     app.disable('x-powered-by');
 
-    app.use('/css', express.static(__dirname + '/node_modules/MapGallery/css'));
-    app.use('/scripts', express.static(__dirname + '/node_modules/MapGallery/scripts'));
-    app.use('/images', express.static(__dirname + '/node_modules/MapGallery/images'));
+    app.use('/MapGallery', express.static(__dirname + '/node_modules/MapGallery'));
+    app.use('/assets', express.static(__dirname + '/assets'));
 
     app.get('/', function (req, res) {
         res.sendFile(__dirname + '/index.html');
@@ -50,12 +49,13 @@ Flickr[config.authenticate ? 'authenticate' : 'tokenOnly'](config.flickrOptions,
                         var isHd = getHdParam(req);
                         var dataUrl = '/data/' + setId + '?hd=' + (isHd ? 1 : 0);
 
-                        var clientIndexHtml = data.replace('scripts/demo.js', dataUrl);
+                        var clientIndexHtml = data.replace('MapGallery/scripts/demo.js', dataUrl);
                         clientIndexHtml = clientIndexHtml.replace(/<title>(.*)<\/title>/, '<title>MapGallery - ' + photoset.title._content + '</title>');
                         clientIndexHtml = clientIndexHtml.replace('{{og-title}}', 'MapGallery - ' + photoset.title._content);
                         clientIndexHtml = clientIndexHtml.replace('{{og-description}}', photoset.description._content);
                         clientIndexHtml = clientIndexHtml.replace('{{og-image}}', photoset.primaryPhotoUrl);
                         clientIndexHtml = clientIndexHtml.replace('data-isflickr="0"', 'data-isflickr="1"');
+                        clientIndexHtml = clientIndexHtml.replace('{{google-maps-api-key}}', (config.googleOptions.maps_api_key ? ('?key=' + config.googleOptions.maps_api_key) : ''));
 
                         if (allPhotos.some((photo) => {
                             return photo.ispublic > 0;
